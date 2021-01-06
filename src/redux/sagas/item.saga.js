@@ -26,5 +26,5 @@ function* fetchItem() {
         console.log('error getting items', error);
     }
 }
-    
+
 export default itemSaga;

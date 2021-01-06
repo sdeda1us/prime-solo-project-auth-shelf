@@ -22,9 +22,9 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 router.post('/', rejectUnauthenticated, (req, res) => {
   let item = req.body
   console.log('In POST router')
-  const sqlText = `INSERT INTO "item" (description, image_url)
-                    VALUES ($1, $2);`;
-  pool.query(sqlText, [item.description, item.image_url])
+  const sqlText = `INSERT INTO "item" (description, image_url, user_id)
+                    VALUES ($1, $2, $3);`;
+  pool.query(sqlText, [item.description, item.image_url, item.id])
     .then(result => {
       console.log('POST result', result)
       res.sendStatus(201)
