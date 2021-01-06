@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects';
 import axios from 'axios';
 
 function* itemSaga(){
@@ -21,7 +21,7 @@ function* fetchItem() {
     try {
         // clear any existing error on the login page
         const response = yield call(axios.get, '/api/shelf');
-        yield dispatch({type:'SET_ITEM', payload: response.data})
+        yield put({type:'SET_ITEM', payload: response.data})
     }catch(error){
         console.log('error getting items', error);
     }

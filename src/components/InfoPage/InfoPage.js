@@ -20,7 +20,7 @@ import {Card} from '@material-ui/core';
 
 class InfoPage extends React.Component {
  state = {
-   newItem = {
+   newItem: {
      description: '',
      image_url: '',
    }
@@ -62,9 +62,9 @@ class InfoPage extends React.Component {
         </form> 
 
         <div>
-        {this.props.reduxState.itemReducer.map((item) =>
+        {this.props.reduxState.itemReducer.itemReducer.map((item) =>
 
-          <Card>{item.description} {item.image_url}</Card>
+          <Card key={item.id}>{item.description} <img src={item.image_url} alt="changing image"/></Card>
           
         )}
         </div>
