@@ -23,12 +23,13 @@ class InfoPage extends React.Component {
    newItem: {
      description: '',
      image_url: '',
+     id: `${this.props.reduxState.user.id}`
    }
  }
   componentDidMount() {
     this.props.dispatch({type: 'FETCH_ITEM'})
   }
-  handleChange = (event, propertyName) => {
+  handleChange = (propertyName, event) => {
     this.setState({
       newItem: {
           ...this.state.newItem,
@@ -36,10 +37,10 @@ class InfoPage extends React.Component {
       }
     });
   }
+
   handleSubmit = event => {
     event.preventDefault();
     this.props.dispatch({ type: 'ADD_ITEM', payload: this.state.newItem})
-    this.props.history.push('/notSureWhichWhackItNeeds')
     
   }
   
