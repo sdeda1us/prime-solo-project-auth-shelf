@@ -2,18 +2,37 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+const {
+  rejectUnauthenticated,
+} = require('../modules/authentication-middleware')
+
 /**
  * Get all of the items on the shelf
  */
-router.get('/', (req, res) => {
-  res.sendStatus(200); // For testing only, can be removed
+router.get('/', rejectUnauthenticated, (req, res) => {
+  let sqlText = `SELECT * from item`;
+  pool.query(sqlText)
+  .then(result => {res.send(result.rows)})
+  .catch(error => {console.log('error retrieving posters', error)})
 });
 
 /**
  * Add an item for the logged in user to the shelf
  */
-router.post('/', (req, res) => {
-  // code here
+router.post('/', rejectUnauthenticated, (req, res) => {
+  let item = req.body
+  console.log('In POST router')
+  const sqlText = `INSERT INTO "item" (description, image_url)
+                    VALUES ($1, $2);`;
+  pool.query(sqlText, [item.description, item.image_url])
+    .then(result => {
+      console.log('POST result', result)
+      res.sendStatus(201)
+    })
+    .catch(err => {
+      console.log('ERROR in POST shelf router', err)
+      res.sendStatus(500)
+    })
 });
 
 /**
