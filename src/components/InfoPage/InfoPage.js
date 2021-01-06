@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {Card} from '@material-ui/core';
 // This is one of our simplest components
 // It doesn't have local state, so it can be a function component.
 // It doesn't dispatch any redux actions or display any part of redux state
@@ -44,20 +45,32 @@ class InfoPage extends React.Component {
   
   render() {
     return (
-      <div>
+      <>
         <p>Info Page</p>
         <form>
           <label>Description</label>
           <input type="text" 
+          value={this.state.newItem.description}
           onChange={(event) => this.handleChange('description', event)}/>
 
           <label>Image URL</label>
           <input type="text"
+          value={this.state.newItem.image_url}
           onChange={(event) => this.handleChange('image_url', event)}/>
 
           <button onClick={this.handleSubmit}>Submit</button>
         </form> 
-      </div>
+
+        <div>
+        {this.props.reduxState.itemReducer.map((item) =>
+
+          <Card>{item.description} {item.image_url}</Card>
+          
+        )}
+        </div>
+      </>
+
+
     )
   }
 }
