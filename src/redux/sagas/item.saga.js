@@ -5,6 +5,7 @@ function* itemSaga(){
     // Use takeLatest with the login so that states don't get changed
     yield takeLatest('FETCH_ITEM', fetchItem);
     yield takeLatest('ADD_ITEM', addItem);
+    yield takeLatest('DELETE_ITEM', deleteItem);
 };
 
 function* addItem(action) {
@@ -24,6 +25,16 @@ function* fetchItem() {
         yield put({type:'SET_ITEM', payload: response.data})
     }catch(error){
         console.log('error getting items', error);
+    }
+}
+
+function* deleteItem(action) {
+    try {
+        yield axios.delete(`/api/shelf/${action.payload}`)
+        yield put({type: 'FETCH_ITEM'})
+    }catch(error){
+        console.log('error in delete saga', error);
+        
     }
 }
 

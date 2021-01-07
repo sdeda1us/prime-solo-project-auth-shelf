@@ -43,6 +43,10 @@ class InfoPage extends React.Component {
     this.props.dispatch({ type: 'ADD_ITEM', payload: this.state.newItem})
     
   }
+
+  deleteItem = (id) => {
+    this.props.dispatch({type: 'DELETE_ITEM', payload: id})
+  }
   
   render() {
     return (
@@ -65,7 +69,10 @@ class InfoPage extends React.Component {
         <div>
         {this.props.reduxState.itemReducer.itemReducer.map((item) =>
 
-          <Card key={item.id}>{item.description} <img src={item.image_url} alt="changing image"/></Card>
+          <Card key={item.id}>{item.description} 
+            <img src={item.image_url} alt="witchy stuff"/>
+            {item.user_id===this.props.reduxState.user.id ? <button onClick={()=> this.deleteItem(item.id)}>Delete</button> : ''}
+          </Card>
           
         )}
         </div>

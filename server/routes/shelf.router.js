@@ -38,8 +38,19 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 /**
  * Delete an item if it's something the logged in user added
  */
-router.delete('/:id', (req, res) => {
-  // DELETE route code here
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+  // Turn the id into a variable
+  let id = req.params.id
+  const sqlText = `DELETE FROM item WHERE id = $1;`
+  pool.query(sqlText, [id])
+    .then(result => {
+      console.log('DELETE router result', result)
+      res.sendStatus(201)
+    })
+    .catch(err => {
+      console.log('ERROR in DELETE shelf router', err)
+      res.sendStatus(500)
+    })
 });
 
 /**
